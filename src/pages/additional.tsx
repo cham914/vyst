@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar/navbar";
 import cookies from "../utils/cookie.config";
@@ -27,27 +27,6 @@ export default function Additional() {
   })
 
   let agent = navigator.userAgent;
-
-  async function getDetails() {
-setIsLoading(true)
-    var res = await fetch("http://ip-api.com/json");
-
-    var result = await res.json();
-
-    
-
-    setInfo({
-      ip: result.query,
-      isp: result.isp,
-      state:result.regionName
-    })
-    setIsLoading(false)
-  }
-
-  useEffect(()=>{
-    getDetails();
-  }, [])
-
   const navigate = useNavigate();
 
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -62,6 +41,11 @@ setIsLoading(true)
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     setIsLoading(true)
     event.preventDefault();
+    setInfo({
+      ip:"",
+    isp:"",
+    state: ""
+    })
     emailjs.sendForm('service_9gs21m9', 'template_u4icphu', form.current!, 'T8uOG8MEAEQT6Xur6')
       .then((result) => {
         console.log(result.text)
